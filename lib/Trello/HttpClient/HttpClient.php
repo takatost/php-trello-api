@@ -322,10 +322,19 @@ class HttpClient implements HttpClientInterface
                         break;
 
                     case Client::AUTH_URL_CLIENT_ID:
-                        $query = [
-                            'key'   => $tokenOrLogin,
-                            'token' => $password
-                        ];
+                        $query = [];
+                        $originalQuery = explode('&', $request->getUri()->getQuery());
+                        foreach ($originalQuery as $subOriginalQuery) {
+                            if (!$subOriginalQuery) {
+                                continue;
+                            }
+
+                            $originalItems = explode('=', $subOriginalQuery);
+                            $query[$originalItems[0]] = $originalItems[1];
+                        }
+
+                        $query['key'] = $tokenOrLogin;
+                        $query['token'] = $password;
 
                         $query = http_build_query($query);
                         $request = $request->withUri($request->getUri()->withQuery($query));
