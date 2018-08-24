@@ -11,6 +11,7 @@ use Trello\HttpClient\HttpClientInterface;
 /**
  * Simple PHP Trello client
  *
+ * @method Api\Batch batch()
  * @method Api\Action action()
  * @method Api\Action actions()
  * @method Api\Board board()
@@ -97,6 +98,9 @@ class Client implements ClientInterface
     public function api($name)
     {
         switch ($name) {
+            case 'batch':
+                $api = new Api\Batch($this);
+                break;
             case 'action':
             case 'actions':
                 $api = new Api\Action($this);
