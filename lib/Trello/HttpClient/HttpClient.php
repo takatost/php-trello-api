@@ -389,7 +389,7 @@ class HttpClient implements HttpClientInterface
 
         if ($httpMethod === 'GET' && $body) {
             $path .= (false === strpos($path, '?') ? '?' : '&');
-            $path .= utf8_encode(http_build_query($body, '', '&'));
+            $path .= urldecode(utf8_encode(http_build_query($body, '', '&')));
         }
 
         return new Request(
